@@ -1,5 +1,5 @@
 {
-  "name": "burzomir-resume",
+  "name": "brzmr-starter",
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/burzomir/resume.git"
+    "url": "git+https://github.com/burzomir/brzmr-starter.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/burzomir/resume/issues"
+    "url": "https://github.com/burzomir/brzmr-starter"
   },
-  "homepage": "https://github.com/burzomir/resume#readme",
+  "homepage": "https://github.com/burzomir/brzmr-starter",
   "devDependencies": {
     "autoprefixer": "^8.2.0",
     "awesome-typescript-loader": "^4.0.1",
