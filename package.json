@@ -1,5 +1,5 @@
 {
-  "name": "brzmr-starter",
+  "name": "mchat",
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/burzomir/brzmr-starter.git"
+    "url": "git+https://github.com/burzomir/mchat.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/burzomir/brzmr-starter"
+    "url": "https://github.com/burzomir/mchat"
   },
-  "homepage": "https://github.com/burzomir/brzmr-starter",
+  "homepage": "https://github.com/burzomir/mchat",
   "devDependencies": {
     "autoprefixer": "^8.2.0",
     "awesome-typescript-loader": "^4.0.1",
