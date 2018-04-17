@@ -1,0 +1,30 @@
+@mixin full-stretch () {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.drawer {
+  @include full-stretch();
+
+  &__side-content {
+    @include full-stretch();
+
+    background-color: azure;
+  }
+
+  &__main-content {
+    @include full-stretch();
+
+    background-color: cornflowerblue;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  &--opened &__main-content {
+    transform: scale(0.5) translateX(90%);
+  }
+}
+
