@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import createFetchUtil from './utils/redux/fetch'
+import { createReducer } from './services/fetch'
 
 export default function create () {
   return createStore(
@@ -11,14 +11,12 @@ export default function create () {
   )
 }
 
-function getRoomFetchUtil () {
-  return createFetchUtil<string[]>('ROOM', { data: [], isLoading: false })
-}
+const rooms = createReducer<string[], string>('Rooms', { loading: false, data: [] })
+const people = createReducer<string[], string>('People', { loading: false, data: [] })
 
 function getRootReducer () {
   return combineReducers({
-    rooms: rooms.reducer
+    rooms,
+    people
   })
 }
-
-const rooms = getRoomFetchUtil()
