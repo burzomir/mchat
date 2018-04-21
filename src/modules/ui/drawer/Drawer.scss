@@ -12,15 +12,13 @@
 
   &__side-content {
     @include full-stretch();
-
-    background-color: azure;
   }
 
   &__main-content {
     @include full-stretch();
 
-    background-color: cornflowerblue;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    box-shadow: 0 10px 10px 5px white;
   }
 
   &--opened &__main-content {

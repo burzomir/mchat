@@ -1,18 +1,18 @@
 import * as React from 'react'
-import Drawer from './modules/drawer/components/Drawer'
+import Drawer from './modules/ui/drawer'
 
 class App extends React.Component<any, { isOpened: boolean }> {
   constructor (props: any) {
     super(props)
     this.state = {
-      isOpened: false
+      isOpened: true
     }
   }
 
   componentDidMount () {
-    setInterval(() => {
-      this.setState(({ isOpened }) => ({ isOpened: !isOpened }))
-    }, 2000)
+    // setInterval(() => {
+    //   this.setState(({ isOpened }) => ({ isOpened: !isOpened }))
+    // }, 2000)
   }
 
   render () {
