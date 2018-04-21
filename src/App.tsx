@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Drawer from './modules/ui/drawer'
 import { Player } from './components/integrations/SoundCloud'
+import { getOembed } from './services/oembed'
 
 class App extends React.Component<any, { isOpened: boolean }> {
   constructor (props: any) {
@@ -11,6 +12,8 @@ class App extends React.Component<any, { isOpened: boolean }> {
   }
 
   componentDidMount () {
+    getOembed('https://soundcloud.com/mamomam-records/05-red-sun-rising-distant')
+    .then(console.log)
     // setInterval(() => {
     //   this.setState(({ isOpened }) => ({ isOpened: !isOpened }))
     // }, 2000)
