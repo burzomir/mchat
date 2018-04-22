@@ -3,6 +3,12 @@ import Drawer from './modules/ui/drawer'
 import { Player } from './components/integrations/SoundCloud'
 import { getOembed } from './services/oembed'
 
+import * as auth from './services/auth'
+
+Object.defineProperty(window, 'myauth', {
+  value: auth
+})
+
 class App extends React.Component<any, { isOpened: boolean }> {
   constructor (props: any) {
     super(props)
