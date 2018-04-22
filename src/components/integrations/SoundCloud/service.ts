@@ -1,3 +1,5 @@
+import { Maybe } from '../../../services/fp'
+
 export default function loadSoundCloudApi () {
   return new Promise<SoundCloudApi>((resolve) => {
     const script = document.createElement('script')
@@ -5,7 +7,8 @@ export default function loadSoundCloudApi () {
     script.onload = () => {
       resolve(window.SC)
     }
-    const firstScriptTag = document.getElementsByTagName('script')[0]
-    firstScriptTag.parentNode.insertBefore(script, firstScriptTag)
+    Maybe
+      .of(document.getElementsByTagName('script')[0])
+      .map(scriptTag => scriptTag.insertBefore(script, scriptTag))
   })
 }

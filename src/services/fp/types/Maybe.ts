@@ -1,4 +1,4 @@
-export class Maybe<V> {
+export default class Maybe<V> {
 
   private constructor (private value?: V | null) { }
 

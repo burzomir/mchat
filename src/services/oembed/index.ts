@@ -1,5 +1,6 @@
 import { getProviders } from './providers'
 import { Oembed, Provider } from './types'
+import { Maybe } from '../fp'
 
 export function getOembed (url: string) {
   return getProviders()
@@ -31,9 +32,14 @@ function fetchOembed (url: string) {
 
 function extractSourceUrl (oembed: Oembed) {
   const srcPattern = /src="(.*?)"/
-  const result = srcPattern.exec(oembed.html)
-  if (result.length < 2) {
-    return Promise.reject('Could not extract source url')
-  }
-  return Promise.resolve(result[1])
+  return new Promise((resolve, reject) => {
+    Maybe
+      .of(srcPattern.exec(oembed.html))
+      .map(result => {
+        if (result.length < 2) {
+          return reject('Could not extract source url')
+        }
+        return resolve(result[1])
+      })
+  })
 }
