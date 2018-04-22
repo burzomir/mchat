@@ -9,6 +9,10 @@ export default function loadSoundCloudApi () {
     }
     Maybe
       .of(document.getElementsByTagName('script')[0])
-      .map(scriptTag => scriptTag.insertBefore(script, scriptTag))
+      .map(scriptTag => {
+        Maybe
+          .of(scriptTag.parentNode)
+          .map(parentNode => parentNode.insertBefore(script, scriptTag))
+      })
   })
 }
