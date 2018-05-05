@@ -1,6 +1,6 @@
 import { getProviders } from './providers'
 import { Oembed, Provider } from './types'
-import { Maybe } from '../fp'
+import { Maybe } from '../utils/fp'
 
 export function getOembed (url: string) {
   return getProviders()

@@ -1,4 +1,4 @@
-import { Maybe } from '../../../services/fp'
+import { Maybe } from '../../utils/fp'
 
 export default function loadSoundCloudApi () {
   return new Promise<SoundCloudApi>((resolve) => {

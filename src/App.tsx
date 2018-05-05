@@ -1,9 +1,9 @@
 import * as React from 'react'
-import Drawer from './modules/ui/drawer'
-import { Player } from './components/integrations/SoundCloud'
-import { getOembed } from './services/oembed'
+import Drawer from './ui/drawer'
+import { Player } from './third-party/soundcloud'
+import { getOembed } from './oembed'
 
-import * as auth from './services/auth'
+import * as auth from './auth'
 
 Object.defineProperty(window, 'myauth', {
   value: auth

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { createReducer } from './services/fetch'
+import { createReducer } from './utils/fetch'
 
 export default function create () {
   return createStore(

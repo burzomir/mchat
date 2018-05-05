@@ -1,4 +1,4 @@
-import firebase from '../firebase'
+import firebase from '../third-party/firebase'
 import { Credentials, User } from './types'
 
 export const register = ({ email, password }: Credentials) => {
