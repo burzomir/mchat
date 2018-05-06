@@ -1,0 +1,1 @@
+export { Acrylic } from './Acrylic'
