@@ -15,6 +15,6 @@ const validateEmail = composeValidators([required, email])
 const validatePassword = composeValidators([required])
 
 export const SignInForm = reduxForm({
-  form: 'AuthLoginForm',
+  form: 'AuthSignInForm',
   validate
 })(SignInFormComponent)

@@ -26,7 +26,7 @@ export const SignInForm: React.SFC<InjectedFormProps<SignInFormValues>> = ({
             label='Password'
             component={Input}
           />
-          <Button block>Sign in</Button>
+          <Button block color='primary'>Sign in</Button>
         </form>
       </CardBody>
     </Card>

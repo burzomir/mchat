@@ -2,7 +2,7 @@ import * as React from 'react'
 import { getOembed } from './oembed'
 import { Provider } from 'react-redux'
 import createStore from './store'
-import { SignInForm } from './auth'
+import { SignInForm, SignUpForm } from './auth'
 import { SubmissionError } from 'redux-form'
 
 const store = createStore()
@@ -35,6 +35,7 @@ class App extends React.Component<any, { isOpened: boolean }> {
         <div>
           <h1>Test</h1>
           <SignInForm onSubmit={this.handleSubmit} />
+          <SignUpForm onSubmit={this.handleSubmit} />
         </div>
       </Provider>
     )
