@@ -1,14 +1,16 @@
 import * as React from 'react'
-// import Drawer from './ui/drawer'
-// import { Player } from './third-party/soundcloud'
 import { getOembed } from './oembed'
-
+import { Provider } from 'react-redux'
+import createStore from './store'
 import * as auth from './auth'
-import { Panel, Acrylic, Input } from './ui'
+import { LoginForm } from './auth/components'
+import { SubmissionError } from 'redux-form'
 
 Object.defineProperty(window, 'myauth', {
   value: auth
 })
+
+const store = createStore()
 
 class App extends React.Component<any, { isOpened: boolean }> {
   constructor (props: any) {
@@ -26,39 +28,22 @@ class App extends React.Component<any, { isOpened: boolean }> {
     // }, 2000)
   }
 
+  handleSubmit = () => {
+    return new Promise(() => {
+      throw new SubmissionError({ email: 'Email taken' })
+    })
+  }
+
   render () {
     return (
-      <div>
-        <h1>Test</h1>
-        <Panel material={Acrylic}>
-          <Input label='Test' value='Test' info='Info text' />
-          <Input label='Test' value='Test' info='Info text' valid={false} />
-          <Input label='Test' value='test' />
-        </Panel>
-        <Panel material={Acrylic}>
-          <Input label='Test' value='test' />
-          <Input label='Test' value='test' />
-        </Panel>
-      </div>
-      // <Drawer
-      //   sideContent={
-      //     <h1>Menu</h1>
-      //   }
-      //   mainContent={
-      //     <Player
-      //       src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/396001290&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true'
-      //       play={false}
-      //       {...{ onPlay, onPause, onFinish }}
-      //     />
-      //   }
-      //   isOpened={this.state.isOpened}
-      // />
+      <Provider {...{ store }}>
+        <div>
+          <h1>Test</h1>
+          <LoginForm onSubmit={this.handleSubmit} />
+        </div>
+      </Provider>
     )
   }
 }
-
-// const onPlay = () => console.log('play')
-// const onPause = () => console.log('pause')
-// const onFinish = () => console.log('finish')
 
 export default App
