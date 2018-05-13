@@ -14,6 +14,8 @@ export const reducer = (state = Map<string, DataState<any, any>>(), action: Acti
       return state.set(action.module, { loading: false, data: action.data })
     case 'RECEIVE_ERROR':
       return state.update(action.module, (value) => ({ ...value, loading: false, error: action.error }))
+    case 'RESET_DATA':
+      return state.set(action.module, { loading: false })
     default:
       return state
   }

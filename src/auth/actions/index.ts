@@ -6,7 +6,8 @@ import { User } from '../types'
 import { ModuleNames } from '../moduleNames'
 
 const {
-  receiveData: receiveUser
+  receiveData: receiveUser,
+  resetData: resetUser
 } = createActions<User, string>(ModuleNames.User)
 
 export const signIn = (user: { email: string, password: string }): ThunkAction<any, any, any> => {
@@ -33,5 +34,11 @@ export const signUp = (user: { email: string, password: string }): ThunkAction<a
         }
         throw new SubmissionError({ confirmPassword: 'Could not sign up' })
       })
+  }
+}
+
+export const signOut = (): ThunkAction<any, any, any> => {
+  return dispatch => {
+    dispatch(resetUser())
   }
 }

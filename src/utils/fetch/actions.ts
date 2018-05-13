@@ -1,4 +1,4 @@
-import { FetchDataAction, ReceiveDataAction, ReceiveErrorAction } from './types'
+import { FetchDataAction, ReceiveDataAction, ReceiveErrorAction, ResetDataAction } from './types'
 
 export function fetch (module: string) {
   return (): FetchDataAction => ({
@@ -23,10 +23,18 @@ export function receiveError<Error> (module: string) {
   })
 }
 
+export function resetData (module: string) {
+  return (): ResetDataAction => ({
+    type: 'RESET_DATA',
+    module
+  })
+}
+
 export function createActions<Data, Error> (module: string) {
   return {
     fetch: fetch(module),
     receiveData: receiveData<Data>(module),
-    receiveError: receiveError<Error>(module)
+    receiveError: receiveError<Error>(module),
+    resetData: resetData(module)
   }
 }

@@ -1,5 +1,5 @@
-import { createSelector } from '../../utils/fetch'
+import { createSelectors } from '../../utils/fetch'
 import { User } from '../types'
 import { ModuleNames } from '../moduleNames'
 
-export const user = createSelector<User, string>(ModuleNames.User)
+export const user = createSelectors<User, string>(ModuleNames.User)
