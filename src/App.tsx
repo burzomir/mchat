@@ -1,45 +1,21 @@
 import * as React from 'react'
-import { getOembed } from './oembed'
 import { Provider } from 'react-redux'
-import createStore from './store'
-import { SignInForm, SignUpForm } from './auth'
-import { SubmissionError } from 'redux-form'
+import { create, history } from './store'
+import { ConnectedRouter } from 'react-router-redux'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import { Authentication, Paths } from './auth/scenes'
 
-const store = createStore()
+const store = create()
 
-class App extends React.Component<any, { isOpened: boolean }> {
-  constructor (props: any) {
-    super(props)
-    this.state = {
-      isOpened: true
-    }
-  }
-
-  componentDidMount () {
-    getOembed('https://soundcloud.com/mamomam-records/05-red-sun-rising-distant')
-      .then(console.log)
-    // setInterval(() => {
-    //   this.setState(({ isOpened }) => ({ isOpened: !isOpened }))
-    // }, 2000)
-  }
-
-  handleSubmit = () => {
-    return new Promise(() => {
-      throw new SubmissionError({ email: 'Email taken' })
-    })
-  }
-
-  render () {
-    return (
-      <Provider {...{ store }}>
-        <div>
-          <h1>Test</h1>
-          <SignInForm onSubmit={this.handleSubmit} />
-          <SignUpForm onSubmit={this.handleSubmit} />
-        </div>
-      </Provider>
-    )
-  }
-}
+const App: React.SFC = () => (
+  <Provider {...{ store }}>
+    <ConnectedRouter {...{ history }}>
+      <Switch>
+        <Route exact path='/' render={() => <Redirect to={'/' + Paths.SignIn} />} />
+        <Route path='/' component={Authentication}/>
+      </Switch>
+    </ConnectedRouter>
+  </Provider >
+)
 
 export default App

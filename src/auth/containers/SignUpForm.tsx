@@ -1,7 +1,10 @@
+import * as React from 'react'
 import { reduxForm } from 'redux-form'
 import { Maybe } from '../../utils/fp/types/Maybe'
 import { required, email, compose as composeValidators } from '../../form/validators'
 import { SignUnFormValues, SignUpForm as SignUnFormComponent } from '../components'
+import { signUp } from '../actions'
+import { connect } from 'react-redux'
 
 const validate = ({ email, password, confirmPassword }: SignUnFormValues) => {
   const errors: Partial<SignUnFormValues> = {}
@@ -20,7 +23,11 @@ const validatePasswordConfirmation = (password: string, confirmPassword: string)
   return composeValidators([required, match])(confirmPassword)
 }
 
-export const SignUpForm = reduxForm({
+const Form = reduxForm({
   form: 'AuthSignUpForm',
   validate
 })(SignUnFormComponent)
+
+const FormWrapper: React.SFC<{ onSubmit: (values: SignUnFormValues) => any }> = ({ onSubmit }) => <Form {...{ onSubmit }} />
+
+export const SignUpForm = connect(undefined, { onSubmit: signUp })(FormWrapper)

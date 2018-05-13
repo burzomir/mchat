@@ -1,6 +1,6 @@
 import 'bootstrap/scss/bootstrap.scss'
 export * from './components/Card'
+export * from './components/Grid'
 export * from './components/Input'
 export * from './components/Button'
 export * from './components/Panel'
-export * from './components/Container'

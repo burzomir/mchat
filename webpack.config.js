@@ -12,6 +12,9 @@ module.exports = {
     publicPath: '/'
   },
   devtool: 'inline-source-map',
+  devServer: {
+    historyApiFallback: true
+  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']
   },

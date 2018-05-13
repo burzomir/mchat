@@ -3,13 +3,18 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { reducer as form } from 'redux-form'
 import thunk from 'redux-thunk'
 import { createReducer } from './utils/fetch'
+import { routerReducer as routing, routerMiddleware } from 'react-router-redux'
+import createHistory from 'history/createBrowserHistory'
 
-export default function create () {
+export const history = createHistory()
+
+export const create = () => {
   return createStore(
     getRootReducer(),
     composeWithDevTools(
       applyMiddleware(
-        thunk
+        thunk,
+        routerMiddleware(history)
       )
     )
   )
@@ -22,6 +27,7 @@ function getRootReducer () {
   return combineReducers({
     rooms,
     people,
-    form
+    form,
+    routing
   })
 }
