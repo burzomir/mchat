@@ -1,3 +1,4 @@
-export { createActions } from './actions'
-export { createReducer } from './reducer'
-export { State } from './types'
+export * from './actions'
+export * from './reducer'
+export * from './types'
+export * from './selectors'

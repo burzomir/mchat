@@ -43,6 +43,6 @@ const resolveWithUser = (user: firebase.User) => {
 }
 
 const mapFirebaseUserToUser = ({ displayName, email }: firebase.User): User => ({
-  displayName,
+  name: displayName,
   email: email || ''
 })

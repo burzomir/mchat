@@ -1,3 +1,5 @@
+import { Map } from 'immutable'
+
 export type FetchDataAction = {
   type: 'FETCH_DATA'
   module?: string
@@ -17,12 +19,12 @@ export type ReceiveErrorAction<Error> = {
 
 export type Action<Data, Error> = FetchDataAction | ReceiveDataAction<Data> | ReceiveErrorAction<Error>
 
-export type State<Data, Error> = {
+export type DataState<Data, Error> = {
   loading: boolean,
   data: Data
   error?: Error
 }
 
-export type Reducer<Data, Error> = {
-  (state: State<Data, Error>, action: Action<Data, Error>): State<Data, Error>
+export type State = {
+  data: Map<string, DataState<any, any>>
 }

@@ -4,6 +4,6 @@ export type Credentials = {
 }
 
 export type User = {
-  displayName: string | null
+  name: string | null
   email: string
 }
