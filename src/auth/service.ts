@@ -1,7 +1,7 @@
 import firebase from '../third-party/firebase'
 import { Credentials, User } from './types'
 
-export const register = ({ email, password }: Credentials) => {
+export const signUp = ({ email, password }: Credentials) => {
   firebase.auth()
     .createUserWithEmailAndPassword(email, password)
     .then(resolveWithUser)

@@ -2,13 +2,8 @@ import * as React from 'react'
 import { getOembed } from './oembed'
 import { Provider } from 'react-redux'
 import createStore from './store'
-import * as auth from './auth'
-import { LoginForm } from './auth/components'
+import { SignInForm } from './auth'
 import { SubmissionError } from 'redux-form'
-
-Object.defineProperty(window, 'myauth', {
-  value: auth
-})
 
 const store = createStore()
 
@@ -39,7 +34,7 @@ class App extends React.Component<any, { isOpened: boolean }> {
       <Provider {...{ store }}>
         <div>
           <h1>Test</h1>
-          <LoginForm onSubmit={this.handleSubmit} />
+          <SignInForm onSubmit={this.handleSubmit} />
         </div>
       </Provider>
     )
