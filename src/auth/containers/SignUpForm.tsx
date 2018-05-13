@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { reduxForm } from 'redux-form'
 import { Maybe } from '../../utils/fp/types/Maybe'
-import { required, email, compose as composeValidators } from '../../form/validators'
+import { required, email, compose as composeValidators, minLength } from '../../form/validators'
 import { SignUnFormValues, SignUpForm as SignUnFormComponent } from '../components'
 import { signUp } from '../actions'
 import { connect } from 'react-redux'
@@ -16,7 +16,7 @@ const validate = ({ email, password, confirmPassword }: SignUnFormValues) => {
 
 const validateEmail = composeValidators([required, email])
 
-const validatePassword = composeValidators([required])
+const validatePassword = composeValidators([required, minLength(6)])
 
 const validatePasswordConfirmation = (password: string, confirmPassword: string) => {
   const match = () => password === confirmPassword ? undefined : 'Passwords do not match'
