@@ -15,12 +15,12 @@ export class Maybe<V> {
     }
   }
 
-  orElse (defaultValue: V) {
+  orElse<T> (defaultValue?: T | null) {
     const { value } = this
     if (value === null || value === undefined) {
       return Maybe.of(defaultValue)
     } else {
-      return this
+      return Maybe.of(this.value)
     }
   }
 

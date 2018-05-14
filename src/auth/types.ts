@@ -1,9 +1,10 @@
 export type Credentials = {
-  email: string
+  email: string,
   password: string
 }
 
 export type User = {
-  name: string | null
+  id: string,
+  name: string | null,
   email: string
 }

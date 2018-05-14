@@ -42,7 +42,8 @@ const resolveWithUser = (user: firebase.User) => {
   return Promise.resolve<User>(mapFirebaseUserToUser(user))
 }
 
-const mapFirebaseUserToUser = ({ displayName, email }: firebase.User): User => ({
+const mapFirebaseUserToUser = ({ displayName, email, uid }: firebase.User): User => ({
+  id: uid,
   name: displayName,
   email: email || ''
 })
