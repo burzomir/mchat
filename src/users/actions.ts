@@ -1,16 +1,16 @@
-import { User } from './types'
+import { User, Action, ActionType } from './types'
 
-export const addUser = (user: Partial<User>) => ({
-  type: 'ADD_USER',
+export const addUser = (user: User): Action => ({
+  type: ActionType.AddUser,
   user
 })
 
-export const updateUser = (user: Partial<User>) => ({
-  type: 'UPDATE_USER',
+export const updateUser = (user: User): Action => ({
+  type: ActionType.UpdateUser,
   user
 })
 
-export const removeUser = (user: Partial<User>) => ({
-  type: 'REMOVE_USER',
+export const removeUser = (user: User): Action => ({
+  type: ActionType.RemoveUser,
   user
 })

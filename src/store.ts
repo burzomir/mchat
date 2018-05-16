@@ -5,6 +5,7 @@ import thunk from 'redux-thunk'
 import { reducer as data } from './utils/fetch'
 import { routerReducer as routing, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
+import { reducer as users } from './users'
 
 export const history = createHistory()
 
@@ -22,6 +23,7 @@ export const create = () => {
 
 function getRootReducer () {
   return combineReducers({
+    users,
     data,
     form,
     routing

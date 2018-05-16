@@ -7,7 +7,7 @@ import { Authentication, Paths } from './auth/scenes'
 import { Permissions } from './ui/components/Permissions'
 import { AuthenticatedUser } from './auth/permissions'
 import { UserProfile } from './profile/containers'
-import { createUsersService } from './users/service'
+import { createUsersService } from './users'
 
 const store = create()
 createUsersService(store).init()
