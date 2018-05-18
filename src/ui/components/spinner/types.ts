@@ -7,8 +7,8 @@ export type State = {
 }
 
 export enum ActionType {
-  StartLoading = 'START_LOADING',
-  StopLoading = 'STOP_LOADING'
+  StartLoading = 'spinner/START_LOADING',
+  StopLoading = 'spinner/STOP_LOADING'
 }
 
 export type Action = {

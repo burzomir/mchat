@@ -4,6 +4,7 @@ import { createActions } from '../../utils/fetch'
 import * as service from '../service'
 import { User } from '../types'
 import { ModuleNames } from '../moduleNames'
+import { startLoading, stopLoading } from '../../ui/components/Spinner'
 
 const {
   receiveData: receiveUser,
@@ -12,11 +13,14 @@ const {
 
 export const signIn = (user: { email: string, password: string }): ThunkAction<any, any, any> => {
   return dispatch => {
+    dispatch(startLoading(ModuleNames.AuthenticationSpinner))
     return service.signIn(user)
       .then(user => {
         dispatch(receiveUser(user))
+        dispatch(stopLoading(ModuleNames.AuthenticationSpinner))
       })
       .catch((error: any) => {
+        dispatch(stopLoading(ModuleNames.AuthenticationSpinner))
         if (error) {
           throw new SubmissionError(error)
         }

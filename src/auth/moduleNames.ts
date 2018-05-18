@@ -1,3 +1,4 @@
 export const ModuleNames = {
-  User: 'AuthUser'
+  User: 'AuthUser',
+  AuthenticationSpinner: 'AuthenticationSpinner'
 }
