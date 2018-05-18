@@ -6,7 +6,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { Authentication, Paths } from './auth/scenes'
 import { Permissions } from './ui/components/Permissions'
 import { AuthenticatedUser } from './auth/permissions'
-import { UserProfile } from './profile/containers'
+import { MyProfile } from './profile/scenes'
 import { createUsersService } from './users'
 
 const store = create()
@@ -24,7 +24,7 @@ const App: React.SFC = () => (
         </Permissions>
         <Permissions only={[AuthenticatedUser]}>
           <Switch>
-            <Route path='/' component={UserProfile} />
+            <Route path='/' component={MyProfile} />
           </Switch>
         </Permissions>
       </div>

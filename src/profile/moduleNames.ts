@@ -1,3 +1,4 @@
 export const ModuleNames = {
-  UserProfile: 'UserProfile'
+  UserProfile: 'UserProfile',
+  UserProfileSpinner: 'UserProfileSpinner'
 }
