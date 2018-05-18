@@ -6,6 +6,7 @@ import { reducer as data } from './utils/fetch'
 import { routerReducer as routing, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import { reducer as users } from './users'
+import { reducer as spinner } from './ui/components/spinner'
 
 export const history = createHistory()
 
@@ -26,6 +27,7 @@ function getRootReducer () {
     users,
     data,
     form,
-    routing
+    routing,
+    spinner
   })
 }
