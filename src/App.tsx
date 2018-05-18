@@ -26,7 +26,8 @@ const App: React.SFC = () => (
         </Permissions>
         <Permissions only={[AuthenticatedUser]}>
           <Switch>
-            <Route path='/' component={MyProfile} />
+            <Route exact path='/profile' component={MyProfile} />
+            <Route path='/' render={() => <Redirect to={'/profile'} />} />
           </Switch>
         </Permissions>
       </div>

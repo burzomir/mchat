@@ -35,6 +35,11 @@ export const signIn = ({ email, password }: Credentials) => {
     })
 }
 
+export const signOut = () => {
+  return firebase.auth().signOut()
+}
+
+// TODO: move to actions
 export const restoreUser = (store: Store<any>) => {
   store.dispatch(startLoading(ModuleNames.AuthenticationSpinner))
   getCurrentUser()

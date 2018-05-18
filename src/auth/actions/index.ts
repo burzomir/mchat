@@ -43,6 +43,10 @@ export const signUp = (user: { email: string, password: string }): ThunkAction<a
 
 export const signOut = (): ThunkAction<any, any, any> => {
   return dispatch => {
-    dispatch(resetUser())
+    service
+      .signOut()
+      .then(() => {
+        dispatch(resetUser())
+      })
   }
 }
