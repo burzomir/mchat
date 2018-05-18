@@ -20,8 +20,8 @@ const App: React.SFC = () => (
       <div>
         <Permissions except={[AuthenticatedUser]}>
           <Switch>
-            <Route exact path='/' render={() => <Redirect to={'/' + Paths.SignIn} />} />
-            <Route path='/' component={Authentication} />
+            <Route path='/auth' component={Authentication} />
+            <Route path='/' render={() => <Redirect to={'/auth' + Paths.SignIn} />} />
           </Switch>
         </Permissions>
         <Permissions only={[AuthenticatedUser]}>

@@ -1,4 +1,4 @@
 export const Paths = {
-  SignIn: 'signin',
-  SignUp: 'signup'
+  SignIn: '/signin',
+  SignUp: '/signup'
 }
