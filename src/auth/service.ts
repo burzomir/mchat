@@ -1,5 +1,9 @@
 import firebase from '../third-party/firebase'
 import { Credentials, User } from './types'
+import { Store } from 'react-redux'
+import { startLoading, stopLoading } from '../ui/components/Spinner'
+import { receiveUser } from './actions'
+import { ModuleNames } from './moduleNames'
 
 export const signUp = ({ email, password }: Credentials) => {
   return firebase.auth()
@@ -31,11 +35,25 @@ export const signIn = ({ email, password }: Credentials) => {
     })
 }
 
+export const restoreUser = (store: Store<any>) => {
+  store.dispatch(startLoading(ModuleNames.AuthenticationSpinner))
+  getCurrentUser()
+  .then(user => {
+    store.dispatch(receiveUser(user))
+    store.dispatch(stopLoading(ModuleNames.AuthenticationSpinner))
+  })
+  .catch(() => {
+    store.dispatch(stopLoading(ModuleNames.AuthenticationSpinner))
+  })
+}
+
 export const getCurrentUser = () => {
-  const { currentUser } = firebase.auth()
-  return currentUser === null
-    ? Promise.reject(undefined)
-    : resolveWithUser(currentUser)
+  return new Promise<User>((resolve, reject) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      unsubscribe()
+      user ? resolve(mapFirebaseUserToUser(user)) : reject(user)
+    })
+  })
 }
 
 const resolveWithUser = (user: firebase.User) => {

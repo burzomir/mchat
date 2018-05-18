@@ -6,7 +6,7 @@ import { User } from '../types'
 import { ModuleNames } from '../moduleNames'
 import { startLoading, stopLoading } from '../../ui/components/Spinner'
 
-const {
+export const {
   receiveData: receiveUser,
   resetData: resetUser
 } = createActions<User, string>(ModuleNames.User)
