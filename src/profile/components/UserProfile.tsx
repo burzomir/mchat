@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { UserProfile as TUserProfile } from '../types'
 import { Button } from '../../ui'
+import { User } from '../../users/types'
 
 type Props = {
-  user?: TUserProfile,
+  user?: User,
   onSignOut: VoidFunction
 }
 

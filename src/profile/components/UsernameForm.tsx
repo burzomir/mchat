@@ -16,7 +16,7 @@ export const UsernameForm: React.SFC<InjectedFormProps<UsernameFormValues>> = ({
           <Field
             name='username'
             type='text'
-            label='Username'
+            label='Pick your username'
             component={Input}
           />
           <Button block color='primary'>Save</Button>

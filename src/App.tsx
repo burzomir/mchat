@@ -7,12 +7,12 @@ import { Authentication, Paths } from './auth/scenes'
 import { Permissions } from './ui/components/Permissions'
 import { AuthenticatedUser } from './auth/permissions'
 import { MyProfile } from './profile/scenes'
-import { createUsersService } from './users'
+import { UsersService } from './users'
 import { restoreUser } from './auth'
 
 const store = create()
 restoreUser(store)
-createUsersService(store).init()
+UsersService.init(store)
 
 const App: React.SFC = () => (
   <Provider {...{ store }}>
