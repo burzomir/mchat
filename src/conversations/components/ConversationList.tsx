@@ -1,14 +1,6 @@
 import * as React from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap'
-
-type Conversation = {
-  id: string,
-  members: Member[]
-}
-
-type Member = {
-  name: string
-}
+import { Conversation } from '../types'
 
 export type ConversationListProps = {
   conversations: Conversation[],

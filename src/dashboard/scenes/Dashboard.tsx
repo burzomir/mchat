@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { Card, CardHeader } from '../../ui'
-import { Link, Switch, Route, Redirect } from 'react-router-dom'
+import { Link, Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { ConversationList } from '../../conversations/containers/ConversationList'
 import { signOut } from '../../profile/actions'
 import { connect, Dispatch } from 'react-redux'
 import { push } from 'react-router-redux'
+import { ConversationList } from '../../conversations/containers/ConversationList'
+import { Conversation } from '../../conversations/containers/Conversation'
+import { EntryTransition } from '../../ui/components/EntryTransition'
 
 export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dispatch }) => {
   return (
@@ -20,15 +22,19 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
             </DropdownMenu>
           </UncontrolledButtonDropdown>
         </CardHeader>
-        <ConversationList onSelect={({ id }) => dispatch(push(`/conversation/${id}`))}/>
+        <ConversationList onSelect={({ id }) => dispatch(push(`/conversation/${id}`))} />
       </Card>
       <Card className='w-75 border-left-0' style={{ overflow: 'hidden' }}>
         <Switch>
           <Route exact path='/' render={() => (
-            <h1 className='text-center'>Welcome to mchat</h1>
+            <EntryTransition>
+              <h1 className='text-center'>Welcome to mchat</h1>
+            </EntryTransition>
           )} />
-          <Route exact path='/conversation/:id' render={({ match }) => (
-              <h1 className='text-center'>Conversation {match.params.id}</h1>
+          <Route exact path='/conversation/:id' render={(props) => (
+            <EntryTransition key={props.match.params.id}>
+              <Conversation {...props} />
+            </EntryTransition>
           )} />
           <Route path='/' render={() => <Redirect to={'/'} />} />
         </Switch>
@@ -37,4 +43,4 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
   )
 }
 
-export const Dashboard = connect(null, (dispatch) => ({ dispatch }))(DashboardComponent)
+export const Dashboard = connect((state, props: RouteComponentProps<void>) => props, (dispatch) => ({ dispatch }))(DashboardComponent)
