@@ -2,17 +2,18 @@ import * as React from 'react'
 import { RouteComponentProps, Switch, Route, Link } from 'react-router-dom'
 import { Paths } from './Paths'
 import { SignInForm, SignUpForm } from '../containers'
-import { Container, Row, Col } from '../../ui'
-import { ConnectedSpinnerContainer } from '../../ui/components/Spinner'
+import { Container, Row, Col } from '../../ui/components/Grid'
+import { ConnectedSpinnerContainer } from '../../ui/components/Spinner/ConnectedSpinnerContainer'
 import { ModuleNames } from '../moduleNames'
 
 export class Authentication extends React.Component<RouteComponentProps<void>> {
+
   render () {
     const { match } = this.props
     return (
       <Container>
         <Row>
-          <Col>
+          <Col xs={{ size: 12 }} md={{ size: 6, offset: 3 }}>
             <h1 className='text-center my-5'>mchat</h1>
             <ConnectedSpinnerContainer name={ModuleNames.AuthenticationSpinner}>
               <Switch>

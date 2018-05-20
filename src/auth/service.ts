@@ -1,7 +1,7 @@
 import firebase from '../third-party/firebase'
 import { Credentials, User } from './types'
 import { Store } from 'react-redux'
-import { startLoading, stopLoading } from '../ui/components/Spinner'
+import { startLoading, stopLoading } from '../ui/components/Spinner/actions'
 import { receiveUser } from './actions'
 import { ModuleNames } from './moduleNames'
 

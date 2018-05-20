@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { Container, Row, Col, Permissions } from '../../ui'
-import { ConnectedSpinnerContainer } from '../../ui/components/Spinner'
+import { ConnectedSpinnerContainer } from '../../ui/components/Spinner/ConnectedSpinnerContainer'
 import { ModuleNames } from '../moduleNames'
 import { UsernameForm, UserProfile } from '../containers'
 import { UserWithProfile } from '../permissions'

@@ -60,6 +60,7 @@
     "@types/react-redux": "^5.0.16",
     "@types/redux-thunk": "^2.1.0",
     "bootstrap": "^4.1.1",
+    "bootswatch": "^4.1.1",
     "firebase": "^4.13.1",
     "history": "^4.7.2",
     "immutable": "^3.8.2",

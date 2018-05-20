@@ -1,4 +1,4 @@
-import 'bootstrap/scss/bootstrap.scss'
+require('bootswatch/dist/cosmo/bootstrap.min.css')
 export * from './components/Card'
 export * from './components/Grid'
 export * from './components/Input'

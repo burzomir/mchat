@@ -4,7 +4,7 @@ import { createActions } from '../../utils/fetch'
 import * as service from '../service'
 import { User } from '../types'
 import { ModuleNames } from '../moduleNames'
-import { startLoading, stopLoading } from '../../ui/components/Spinner'
+import { startLoading, stopLoading } from '../../ui/components/Spinner/actions'
 
 export const {
   receiveData: receiveUser,
