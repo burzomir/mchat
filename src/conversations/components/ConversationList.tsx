@@ -4,7 +4,7 @@ import { Conversation } from '../types'
 
 export type ConversationListProps = {
   conversations: Conversation[],
-  onSelect: (conversation: Conversation) => void
+  onSelect: (conversation: Conversation) => any
 }
 
 export const ConversationList: React.SFC<ConversationListProps> = ({ conversations, onSelect }) => {
