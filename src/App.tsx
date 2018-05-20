@@ -9,6 +9,8 @@ import { AuthenticatedUser } from './auth/permissions'
 import { MyProfile } from './profile/scenes'
 import { UsersService } from './users'
 import { restoreUser } from './auth'
+import { Navbar, NavbarBrand } from 'reactstrap'
+import styled, { keyframes } from 'styled-components'
 
 const store = create()
 restoreUser(store)
@@ -19,20 +21,42 @@ const App: React.SFC = () => (
     <ConnectedRouter {...{ history }}>
       <div>
         <Permissions except={[AuthenticatedUser]}>
-          <Switch>
-            <Route path='/auth' component={Authentication} />
-            <Route path='/' render={() => <Redirect to={'/auth' + Paths.SignIn} />} />
-          </Switch>
+          <AppContainer>
+            <Switch>
+              <Route path='/auth' component={Authentication} />
+              <Route path='/' render={() => <Redirect to={'/auth' + Paths.SignIn} />} />
+            </Switch>
+          </AppContainer>
         </Permissions>
         <Permissions only={[AuthenticatedUser]}>
-          <Switch>
-            <Route exact path='/profile' component={MyProfile} />
-            <Route path='/' render={() => <Redirect to={'/profile'} />} />
-          </Switch>
+          <AppContainer>
+            <Navbar dark color='primary'>
+              <NavbarBrand href=''>mchat</NavbarBrand>
+            </Navbar>
+            <Switch>
+              <Route exact path='/profile' component={MyProfile} />
+              <Route path='/' render={() => <Redirect to={'/profile'} />} />
+            </Switch>
+          </AppContainer>
         </Permissions>
       </div>
     </ConnectedRouter>
-  </Provider >
+  </Provider>
 )
 
 export default App
+
+const AppEntryKeyframes = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(5%)
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0)
+  }
+`
+
+const AppContainer = styled.div`
+  animation: 0.5s ${AppEntryKeyframes} cubic-bezier(0.785, 0.135, 0.15, 0.86);
+`
