@@ -2,10 +2,10 @@ import * as React from 'react'
 import { Card, CardHeader } from '../../ui'
 import { Link, Switch, Route, Redirect } from 'react-router-dom'
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { ConversationList } from '../../conversations/components/ConversationList'
+import { ConversationList } from '../../conversations/containers/ConversationList'
 import { signOut } from '../../profile/actions'
-import { push } from 'react-router-redux'
 import { connect, Dispatch } from 'react-redux'
+import { push } from 'react-router-redux'
 
 export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dispatch }) => {
   return (
@@ -20,23 +20,7 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
             </DropdownMenu>
           </UncontrolledButtonDropdown>
         </CardHeader>
-        <ConversationList
-          onSelect={({ id }) => dispatch(push(`/conversation/${id}`))}
-          conversations={[
-            {
-              id: '1',
-              members: [
-                { name: 'Michał Kłobukowski' },
-                { name: 'Mateusz Ollik' }]
-            },
-            {
-              id: '2',
-              members: [
-                { name: 'Mateusz Ollik' }
-              ]
-            }
-          ]}
-        />
+        <ConversationList onSelect={({ id }) => dispatch(push(`/conversation/${id}`))}/>
       </Card>
       <Card className='w-75 border-left-0' style={{ overflow: 'hidden' }}>
         <Switch>

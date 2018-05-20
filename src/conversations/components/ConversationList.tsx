@@ -1,12 +1,21 @@
 import * as React from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 
-type Props = {
+type Conversation = {
+  id: string,
+  members: Member[]
+}
+
+type Member = {
+  name: string
+}
+
+export type ConversationListProps = {
   conversations: Conversation[],
   onSelect: (conversation: Conversation) => void
 }
 
-export const ConversationList: React.SFC<Props> = ({ conversations, onSelect }) => {
+export const ConversationList: React.SFC<ConversationListProps> = ({ conversations, onSelect }) => {
   return (
     <ListGroup>
       {
@@ -26,13 +35,4 @@ export const ConversationList: React.SFC<Props> = ({ conversations, onSelect }) 
       }
     </ListGroup>
   )
-}
-
-type Conversation = {
-  id: string,
-  members: Member[]
-}
-
-type Member = {
-  name: string
 }
