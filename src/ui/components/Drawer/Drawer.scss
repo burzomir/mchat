@@ -1,0 +1,28 @@
+@mixin full-stretch () {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.drawer {
+  @include full-stretch();
+
+  &__side-content {
+    @include full-stretch();
+  }
+
+  &__main-content {
+    @include full-stretch();
+
+    transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    box-shadow: 0 10px 10px 5px white;
+  }
+
+  &--opened &__main-content {
+    transform: scale(0.5) translateX(90%);
+  }
+}
+
