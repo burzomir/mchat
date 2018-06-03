@@ -4,13 +4,11 @@ import { Link, Switch, Route, Redirect, RouteComponentProps } from 'react-router
 import { UncontrolledButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, DropdownItemProps } from 'reactstrap'
 import { signOut } from '../../profile/actions'
 import { connect, Dispatch } from 'react-redux'
-// import { push } from 'react-router-redux'
-// import { ConversationList as ConversationListContainer } from '../../conversations/containers/ConversationList'
 import { EntryTransition } from '../../ui/components/EntryTransition'
-// import { Conversation as TConversation } from '../../conversations/types'
 import { RoomList as RoomListComponent } from '../room-list/room-list'
 import { Room } from '../../rooms/room/room'
 import { RoomsService } from '../../rooms/rooms.service'
+import { RoomForm } from '../../rooms/room-form/room-form'
 
 export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dispatch }) => {
   return (
@@ -30,6 +28,7 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
       <Card className='w-75 border-left-0' style={{ overflow: 'hidden' }}>
         <Switch>
           <Route exact path='/' render={renderWelcomeScreen} />
+          <Route exact path='/conversation/new' render={renderRoomForm} />
           <Route exact path='/conversation/:id' render={renderConversation} />
           <Route path='/' render={() => <Redirect to={'/'} />} />
         </Switch>
@@ -44,12 +43,24 @@ class RoomList extends React.Component {
     rooms: []
   }
 
+  roomsService: RoomsService
+
   render () {
-    return <RoomListComponent roomUrl='/conversation/' rooms={this.state.rooms} />
+    return (
+      <div>
+        <Link className='btn btn-default btn-block' to='/conversation/new'>Create room</Link>
+        <RoomListComponent roomUrl='/conversation/' rooms={this.state.rooms} />
+      </div>
+    )
   }
 
   componentDidMount () {
-    RoomsService.getForUser('test').rooms.subscribe(rooms => this.setState({ rooms }))
+    this.roomsService = RoomsService.getForUser('bA1AgO6Sckaq7bSPvzHgXd4PDH52')
+    this.roomsService.rooms.subscribe(rooms => this.setState({ rooms }))
+  }
+
+  createRoom = () => {
+    this.roomsService.createRoom(['member1', 'member 2'])
   }
 }
 
@@ -68,5 +79,11 @@ const renderWelcomeScreen = () => (
 const renderConversation = (props: RouteComponentProps<{ id: string }>) => (
   <EntryTransition key={props.match.params.id}>
     <Room id={props.match.params.id} />
+  </EntryTransition>
+)
+
+const renderRoomForm = () => (
+  <EntryTransition key='room-form'>
+    <RoomForm />
   </EntryTransition>
 )

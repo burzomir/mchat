@@ -1,5 +1,7 @@
 import { BehaviorSubject } from 'rxjs'
 import firebase from '../third-party/firebase'
+import { Maybe } from 'monet'
+import { tap } from 'ramda'
 
 export class RoomsService {
 
@@ -7,10 +9,18 @@ export class RoomsService {
 
   private _rooms = new BehaviorSubject<string[]>([])
 
-  private constructor (userId: string) {
-    const ref = firebase.database().ref(`rooms/${userId}`)
-    ref.on('value', (data) => {
-      this._rooms.next(data && Object.keys(data.val()) || [])
+  private userRoomsRef: firebase.database.Reference
+  private roomsRef: firebase.database.Reference
+
+  private constructor (private userId: string) {
+    this.userRoomsRef = firebase.database().ref(`user_rooms/${userId}`)
+    this.roomsRef = firebase.database().ref('rooms')
+
+    this.userRoomsRef.on('value', (data) => {
+      Maybe
+        .fromNull(data)
+        .flatMap(data => Maybe.fromNull(data.val()))
+        .map(tap(data => this._rooms.next(Object.keys(data))))
     })
   }
 
@@ -25,6 +35,18 @@ export class RoomsService {
 
   get rooms () {
     return this._rooms
+  }
+
+  createRoom (members: string[]) {
+
+    const newRoomRef = this.roomsRef.push()
+    newRoomRef.set({
+      admin: this.userId,
+      members: members.reduce((obj, member) => ({ ...obj, [member]: true }), {})
+    })
+
+    const newRoomId = newRoomRef.key
+    this.userRoomsRef.push(newRoomId).set(true)
   }
 
 }
