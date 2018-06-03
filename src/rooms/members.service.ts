@@ -15,7 +15,7 @@ export class MembersService {
         status: 'online'
       }),
       Member.create({
-        id: '1',
+        id: '2',
         name: 'Mateusz Ollik',
         status: 'online'
       })
@@ -23,14 +23,12 @@ export class MembersService {
   }
 
   static getForRoom (roomId: string) {
-    let roomService = MembersService.instances.get(roomId)
-    if (roomService) {
-      return roomService
-    } else {
-      roomService = new MembersService()
-      MembersService.instances.set(roomId, roomService)
-      return roomService
+    let membersService = MembersService.instances.get(roomId)
+    if (!membersService) {
+      membersService = new MembersService()
+      MembersService.instances.set(roomId, membersService)
     }
+    return membersService
   }
 
   get members () {

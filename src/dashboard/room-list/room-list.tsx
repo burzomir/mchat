@@ -4,18 +4,8 @@ import { Link } from 'react-router-dom'
 import { RoomTile } from '../../rooms/room-tile/room-tile'
 
 export type RoomListProps = {
-  rooms: Room[]
+  rooms: string[]
   roomUrl?: string
-}
-
-export type Room = {
-  id: string,
-  members: Member[]
-}
-
-export type Member = {
-  id: string
-  name: string
 }
 
 export const RoomList: React.SFC<RoomListProps> = ({ rooms, ...props }) => {
@@ -26,8 +16,8 @@ export const RoomList: React.SFC<RoomListProps> = ({ rooms, ...props }) => {
   )
 }
 
-const renderRoomListItem = ({ roomUrl = '' }: Pick<RoomListProps, 'roomUrl'>) => (room: Room) => (
-  <Link to={roomUrl + room.id} key={room.id} className='list-group-item-action list-group-item text-truncate'>
-    <RoomTile id={room.id} />
+const renderRoomListItem = ({ roomUrl = '' }: Pick<RoomListProps, 'roomUrl'>) => (roomId: string) => (
+  <Link to={roomUrl + roomId} key={roomId} className='list-group-item-action list-group-item text-truncate'>
+    <RoomTile id={roomId} />
   </Link>
 )

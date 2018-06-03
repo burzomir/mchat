@@ -8,8 +8,9 @@ import { connect, Dispatch } from 'react-redux'
 // import { ConversationList as ConversationListContainer } from '../../conversations/containers/ConversationList'
 import { EntryTransition } from '../../ui/components/EntryTransition'
 // import { Conversation as TConversation } from '../../conversations/types'
-import { RoomList } from '../room-list/room-list'
+import { RoomList as RoomListComponent } from '../room-list/room-list'
 import { Room } from '../../rooms/room/room'
+import { RoomsService } from '../../rooms/rooms.service'
 
 export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dispatch }) => {
   return (
@@ -24,27 +25,7 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
             </DropdownMenu>
           </UncontrolledButtonDropdown>
         </CardHeader>
-        <RoomList
-          roomUrl='/conversation/'
-          rooms={[
-            {
-              id: '1',
-              members: [
-                {
-                  id: '1',
-                  name: 'Michał Kłobukowski'
-                },
-                {
-                  id: '2',
-                  name: 'Mateusz Ollik'
-                },
-                {
-                  id: '3',
-                  name: 'Mateusz Ollik'
-                }
-              ]
-            }
-          ]} />
+        <RoomList />
       </Card>
       <Card className='w-75 border-left-0' style={{ overflow: 'hidden' }}>
         <Switch>
@@ -55,6 +36,21 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
       </Card>
     </>
   )
+}
+
+class RoomList extends React.Component {
+
+  state: { rooms: string[] } = {
+    rooms: []
+  }
+
+  render () {
+    return <RoomListComponent roomUrl='/conversation/' rooms={this.state.rooms} />
+  }
+
+  componentDidMount () {
+    RoomsService.getForUser('test').rooms.subscribe(rooms => this.setState({ rooms }))
+  }
 }
 
 export const Dashboard = connect((state, props: RouteComponentProps<void>) => props, (dispatch) => ({ dispatch }))(DashboardComponent)
@@ -71,6 +67,6 @@ const renderWelcomeScreen = () => (
 
 const renderConversation = (props: RouteComponentProps<{ id: string }>) => (
   <EntryTransition key={props.match.params.id}>
-    <Room id={props.match.params.id}/>
+    <Room id={props.match.params.id} />
   </EntryTransition>
 )

@@ -34,14 +34,12 @@ export class MessagesService {
   }
 
   static getForRoom (roomId: string) {
-    let roomService = MessagesService.instances.get(roomId)
-    if (roomService) {
-      return roomService
-    } else {
-      roomService = new MessagesService()
-      MessagesService.instances.set(roomId, roomService)
-      return roomService
+    let messagesService = MessagesService.instances.get(roomId)
+    if (!messagesService) {
+      messagesService = new MessagesService()
+      MessagesService.instances.set(roomId, messagesService)
     }
+    return messagesService
   }
 
   get messages () {
