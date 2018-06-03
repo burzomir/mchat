@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Set } from 'immutable'
 import { Button } from '../../ui'
+import { UsersSearchService } from '../../users/users-search.service'
 
 interface RoomFormProps { }
 
@@ -15,6 +16,8 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
     members: Set(),
     query: ''
   }
+
+  usersSearchService = UsersSearchService.create()
 
   render () {
     return (
@@ -37,6 +40,10 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
     )
   }
 
+  componentDidMount () {
+    this.usersSearchService.results.subscribe(users => console.log(users.map(user => user.name)))
+  }
+
   handleSubmit = (event: React.FormEvent<any>) => {
     event.preventDefault()
     this.addMember(this.state.query)
@@ -49,6 +56,7 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
 
   setQuery = (query: string) => {
     this.setState({ query })
+    this.usersSearchService.search(query)
   }
 
   addMember = (member: string) => {

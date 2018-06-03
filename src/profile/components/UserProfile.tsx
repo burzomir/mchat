@@ -13,7 +13,7 @@ export const UserProfile: React.SFC<Props> = ({ user, onSignOut }) => {
       {
         user && (
           <>
-            <p>{user.username}</p>
+            <p>{user.name}</p>
             <p>{user.status}</p>
           </>
         )

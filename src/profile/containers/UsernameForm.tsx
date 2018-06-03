@@ -6,9 +6,9 @@ import { UsernameFormValues, UsernameForm as UsernameFormComponent } from '../co
 import { connect } from 'react-redux'
 import { updateProfile as onSubmit } from '../actions'
 
-const validate = ({ username }: UsernameFormValues) => {
+const validate = ({ name }: UsernameFormValues) => {
   const errors: Partial<UsernameFormValues> = {}
-  Maybe.of(validateUsername(username)).map(error => errors.username = error)
+  Maybe.of(validateUsername(name)).map(error => errors.name = error)
   return errors
 }
 

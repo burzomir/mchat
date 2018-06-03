@@ -6,6 +6,6 @@ import { Maybe } from 'monet'
 
 export const UserWithProfile: PermissionCheck = (state: State & DataState) => {
   return myProfile(state)
-    .flatMap(profile => Maybe.fromNull(profile.username))
+    .flatMap(profile => Maybe.fromNull(profile.name))
     .isSome()
 }

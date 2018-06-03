@@ -2,7 +2,7 @@ import { Map } from 'immutable'
 
 export type User = {
   id: string,
-  username?: string,
+  name?: string,
   status?: 'offline' | 'online'
 }
 

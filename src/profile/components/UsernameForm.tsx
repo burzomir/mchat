@@ -3,7 +3,7 @@ import { Field, InjectedFormProps } from 'redux-form'
 import { Card, CardBody, Input, Button } from '../../ui'
 
 export type UsernameFormValues = {
-  username: string
+  name: string
 }
 
 export const UsernameForm: React.SFC<InjectedFormProps<UsernameFormValues>> = ({
@@ -14,7 +14,7 @@ export const UsernameForm: React.SFC<InjectedFormProps<UsernameFormValues>> = ({
       <CardBody>
         <form onSubmit={handleSubmit} noValidate>
           <Field
-            name='username'
+            name='name'
             type='text'
             label='Pick your username'
             component={Input}
