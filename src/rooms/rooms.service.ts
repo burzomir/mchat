@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs'
+import firebase from '../third-party/firebase'
 
 export class RoomsService {
 
@@ -6,14 +7,17 @@ export class RoomsService {
 
   private _rooms = new BehaviorSubject<string[]>([])
 
-  private constructor () {
-    this._rooms.next(['1', '2', '3', '4'])
+  private constructor (userId: string) {
+    const ref = firebase.database().ref(`rooms/${userId}`)
+    ref.on('value', (data) => {
+      this._rooms.next(data && Object.keys(data.val()) || [])
+    })
   }
 
   static getForUser (userId: string) {
     let roomsService = RoomsService.instances.get(userId)
     if (!roomsService) {
-      roomsService = new RoomsService()
+      roomsService = new RoomsService(userId)
       RoomsService.instances.set(userId, roomsService)
     }
     return roomsService
