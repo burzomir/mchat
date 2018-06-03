@@ -2,5 +2,7 @@
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
-  "tslint.autoFixOnSave": true
+  "tslint.autoFixOnSave": true,
+  "typescript.format.insertSpaceAfterConstructor": true,
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true
 }
