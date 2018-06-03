@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs'
 import { Member } from './member'
+import firebase from '../third-party/firebase'
 
 export class MembersService {
 
@@ -7,25 +8,17 @@ export class MembersService {
 
   private _members = new BehaviorSubject<Member[]>([])
 
-  private constructor () {
-    this._members.next([
-      Member.create({
-        id: '1',
-        name: 'Michał Kłobukowski',
-        status: 'online'
-      }),
-      Member.create({
-        id: '2',
-        name: 'Mateusz Ollik',
-        status: 'online'
-      })
-    ])
+  private constructor (roomId: string) {
+    firebase
+      .database()
+      .ref(`rooms/${roomId}/members`)
+      .on('value', snapshot => this._members.next(snapshot && snapshot.val() || []))
   }
 
   static getForRoom (roomId: string) {
     let membersService = MembersService.instances.get(roomId)
     if (!membersService) {
-      membersService = new MembersService()
+      membersService = new MembersService(roomId)
       MembersService.instances.set(roomId, membersService)
     }
     return membersService

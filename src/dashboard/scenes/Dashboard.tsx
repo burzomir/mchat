@@ -58,10 +58,6 @@ class RoomList extends React.Component {
     this.roomsService = RoomsService.getForUser('bA1AgO6Sckaq7bSPvzHgXd4PDH52')
     this.roomsService.rooms.subscribe(rooms => this.setState({ rooms }))
   }
-
-  createRoom = () => {
-    this.roomsService.createRoom(['member1', 'member 2'])
-  }
 }
 
 export const Dashboard = connect((state, props: RouteComponentProps<void>) => props, (dispatch) => ({ dispatch }))(DashboardComponent)

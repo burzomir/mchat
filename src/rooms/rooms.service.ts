@@ -2,6 +2,7 @@ import { BehaviorSubject } from 'rxjs'
 import firebase from '../third-party/firebase'
 import { Maybe } from 'monet'
 import { tap } from 'ramda'
+import { User } from '../users/user'
 
 export class RoomsService {
 
@@ -37,12 +38,12 @@ export class RoomsService {
     return this._rooms
   }
 
-  createRoom (members: string[]) {
+  createRoom (members: User[]) {
 
     const newRoomRef = this.roomsRef.push()
     newRoomRef.set({
       admin: this.userId,
-      members: members.reduce((obj, member) => ({ ...obj, [member]: true }), {})
+      members: members.reduce((obj, member) => ({ ...obj, [member.id]: true }), {})
     })
 
     const newRoomId = newRoomRef.key
