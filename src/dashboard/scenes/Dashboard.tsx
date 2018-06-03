@@ -25,7 +25,7 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
         </CardHeader>
         <RoomList />
       </Card>
-      <Card className='w-75 border-left-0' style={{ overflow: 'hidden' }}>
+      <Card className='w-75 border-left-0 p-5' style={{ overflow: 'hidden' }}>
         <Switch>
           <Route exact path='/' render={renderWelcomeScreen} />
           <Route exact path='/conversation/new' render={renderRoomForm} />

@@ -1,6 +1,5 @@
 import { Subject, from, merge, Observable } from 'rxjs'
 import { debounceTime, map, switchMap, filter } from 'rxjs/operators'
-import { values } from 'ramda'
 import firebase from '../third-party/firebase'
 import { User } from './user'
 
@@ -24,7 +23,7 @@ export class UsersSearchService {
       validQuery.pipe(
         debounceTime(1000),
         switchMap(query => from(this.createSearchRef(query))),
-        map(snapshot => values(snapshot.val()))
+        map(snapshot => this.transformSnapshot(snapshot))
       ),
       invalidQuery.pipe(
         map(query => [])
@@ -43,6 +42,13 @@ export class UsersSearchService {
       .startAt(query)
       .endAt(query + '\uf8ff')
       .once('value')
+  }
+
+  transformSnapshot (snapshot: firebase.database.DataSnapshot) {
+    const val = snapshot.val()
+    return Object
+      .keys(val)
+      .reduce((users, id) => [...users, User.create({ id, ...val[id] })], [])
   }
 
 }

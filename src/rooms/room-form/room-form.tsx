@@ -1,53 +1,64 @@
 import * as React from 'react'
-import { Set } from 'immutable'
-import { Button } from '../../ui'
+import { Input, InputGroup } from 'reactstrap'
+import { Subscription } from 'rxjs'
+import { Map } from 'immutable'
 import { UsersSearchService } from '../../users/users-search.service'
+import { User } from '../../users/user'
 
 interface RoomFormProps { }
 
 interface RoomFormState {
-  members: Set<string>
+  members: Map<string, User>
+  users: User[]
   query: string
 }
 
 export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
 
   state: RoomFormState = {
-    members: Set(),
+    members: Map(),
+    users: [],
     query: ''
   }
 
   usersSearchService = UsersSearchService.create()
+  subscription: Subscription
 
   render () {
     return (
       <div>
+        <h1>New room</h1>
+        <InputGroup>
+          <Input placeholder='Type in to find new people' type='text' value={this.state.query} onChange={this.handleQueryChange} />
+        </InputGroup>
         <ul>
           {
-            this.state.members.toArray().map(member => (
-              <li key={member}>
-                <span>{member}</span>
-                <Button onClick={() => this.deleteMember(member)}>&times;</Button>
+            this.state.users.map(user => (
+              <li key={user.id} onClick={() => this.addMember(user)}>
+                <span>{user.name}</span>
               </li>
             ))
           }
         </ul>
-        <form onSubmit={this.handleSubmit}>
-          <input type='text' value={this.state.query} onChange={this.handleQueryChange} />
-          <button>Add</button>
-        </form>
+        <ul>
+          {
+            this.state.members.toArray().map(member => (
+              <li key={member.id} onClick={() => this.addMember(member)}>
+                <span>{member.name}</span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     )
   }
 
   componentDidMount () {
-    this.usersSearchService.results.subscribe(users => console.log(users.map(user => user.name)))
+    this.subscription = this.usersSearchService.results.subscribe(users => this.setState({ users }))
   }
 
-  handleSubmit = (event: React.FormEvent<any>) => {
-    event.preventDefault()
-    this.addMember(this.state.query)
-    this.setQuery('')
+  componentWillUnmount () {
+    this.subscription.unsubscribe()
   }
 
   handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,12 +70,8 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
     this.usersSearchService.search(query)
   }
 
-  addMember = (member: string) => {
-    this.setState(({ members }) => ({ members: members.add(member) }))
-  }
-
-  deleteMember = (member: string) => {
-    this.setState(({ members }) => ({ members: members.delete(member) }))
+  addMember (user: User) {
+    this.setState(({ members }) => ({ members: members.set(user.id, user) }))
   }
 
 }
