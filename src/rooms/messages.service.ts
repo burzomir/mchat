@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, of } from 'rxjs'
 import { Message } from './message'
 
 export class MessagesService {
@@ -12,21 +12,28 @@ export class MessagesService {
       Message.create({
         id: '1',
         authorId: '1',
-        content: 'Hello world!',
+        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
         creationDate: '2018-06-02T23:38:30.413Z',
         isUnread: true
       }),
       Message.create({
         id: '2',
         authorId: '1',
-        content: 'Hello world!',
+        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
         creationDate: '2018-06-02T23:38:30.413Z',
         isUnread: true
       }),
       Message.create({
         id: '3',
         authorId: '1',
-        content: 'Hello world!',
+        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
+        creationDate: '2018-06-02T23:38:30.413Z',
+        isUnread: false
+      }),
+      Message.create({
+        id: '4',
+        authorId: '1',
+        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
         creationDate: '2018-06-02T23:38:30.413Z',
         isUnread: false
       })
@@ -55,6 +62,11 @@ export class MessagesService {
           return message
         })
     )
+  }
+
+  send (message: Message) {
+    this._messages.next([...this._messages.getValue(), message])
+    return of([])
   }
 
 }

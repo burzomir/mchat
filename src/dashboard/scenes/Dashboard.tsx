@@ -73,7 +73,7 @@ const renderWelcomeScreen = () => (
 )
 
 const renderConversation = (props: RouteComponentProps<{ id: string }>) => (
-  <EntryTransition key={props.match.params.id}>
+  <EntryTransition key={props.match.params.id} className='h-100'>
     <Room id={props.match.params.id} />
   </EntryTransition>
 )

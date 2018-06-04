@@ -22,8 +22,7 @@ export class Message {
 export interface MessageAttrs {
   id: string
   authorId: string
-  /** Date in ISO format */
-  creationDate: string
+  creationDate: string | Date
   content: string
   isUnread: boolean
 }

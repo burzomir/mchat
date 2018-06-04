@@ -51,4 +51,12 @@ export class RoomsService {
     )
   }
 
+  deleteRoom (roomId: string) {
+    const roomRef = firebase.database().ref(`rooms/${roomId}`)
+    const userRoomRef = firebase.database().ref(`user_rooms/${this.userId}/${roomId}`)
+    return roomRef
+      .remove()
+      .then(() => userRoomRef.remove())
+  }
+
 }
