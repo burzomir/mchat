@@ -19,6 +19,7 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
             <UncontrolledButtonDropdown>
               <DropdownToggle color='primary'>...</DropdownToggle>
               <DropdownMenu right>
+                <Link to='/profile' className='dropdown-item'>Profile</Link>
                 <SignOut />
               </DropdownMenu>
             </UncontrolledButtonDropdown>

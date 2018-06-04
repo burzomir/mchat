@@ -6,12 +6,14 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { Authentication, Paths } from './auth/scenes'
 import { Permissions } from './ui/components/Permissions'
 import { AuthenticatedUser } from './auth/permissions'
-// import { MyProfile } from './profile/scenes'
 import { UsersService } from './users'
 import { restoreUser } from './auth'
 import styled from 'styled-components'
 import { Dashboard } from './dashboard/scenes/Dashboard'
 import { EntryTransition } from './ui/components/EntryTransition'
+import { UserWithProfile } from './profile/permissions'
+import { UsernameForm } from './profile/containers'
+import { Container, Row, Col } from 'reactstrap'
 
 const store = create()
 restoreUser(store)
@@ -29,7 +31,14 @@ const App: React.SFC = () => (
             </Switch>
           </EntryTransition>
         </Permissions>
-        <Permissions only={[AuthenticatedUser]}>
+        <Permissions only={[AuthenticatedUser]} except={[UserWithProfile]}>
+          <EntryTransition className='d-flex h-100'>
+            <Switch>
+              <Route path='/' render={renderUsernameForm} />
+            </Switch>
+          </EntryTransition>
+        </Permissions>
+        <Permissions only={[UserWithProfile]}>
           <EntryTransition className='d-flex h-100'>
             <Switch>
               <Route path='/' component={Dashboard} />
@@ -51,3 +60,14 @@ const RootContainer = styled.div`
       left: 0;
       overflow: hidden;
     `
+
+const renderUsernameForm = () => (
+  <Container>
+    <Row>
+      <Col xs={{ size: 12 }} md={{ size: 6, offset: 3 }}>
+        <h1 className='text-center my-5'>mchat</h1>
+        <UsernameForm />
+      </Col>
+    </Row>
+  </Container>
+)
