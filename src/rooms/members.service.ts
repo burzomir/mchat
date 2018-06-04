@@ -1,7 +1,7 @@
 import { BehaviorSubject, from } from 'rxjs'
 import { Member, MemberAttrs } from './member'
 import firebase from '../third-party/firebase'
-import { map, switchMap, tap } from 'rxjs/operators'
+import { map, switchMap } from 'rxjs/operators'
 
 export class MembersService {
 
@@ -30,8 +30,7 @@ export class MembersService {
       map(memberIds => memberIds.map(id => firebase.database().ref(`users/${id}`).once('value'))),
       switchMap(promises => from(Promise.all(promises))),
       map((snapshots: firebase.database.DataSnapshot[]) => snapshots.map(snapshot => ({ id: snapshot.key, ...snapshot.val() }))),
-      map(values => values.map((memberAttrs: MemberAttrs) => Member.create(memberAttrs))),
-      tap(console.log)
+      map(values => values.map((memberAttrs: MemberAttrs) => Member.create(memberAttrs)))
     )
   }
 
