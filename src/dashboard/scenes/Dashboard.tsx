@@ -15,13 +15,20 @@ export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dis
     <>
       <Card className='w-25'>
         <CardHeader className='d-flex justify-content-between align-items-center bg-primary text-white'>
-          <Link to='/' className='btn btn-primary'>mchat</Link>
-          <UncontrolledButtonDropdown>
-            <DropdownToggle color='primary'>Options</DropdownToggle>
-            <DropdownMenu right>
-              <SignOut />
-            </DropdownMenu>
-          </UncontrolledButtonDropdown>
+          <div style={{ width: '33%' }}>
+            <UncontrolledButtonDropdown>
+              <DropdownToggle color='primary'>...</DropdownToggle>
+              <DropdownMenu right>
+                <SignOut />
+              </DropdownMenu>
+            </UncontrolledButtonDropdown>
+          </div>
+          <div style={{ width: '33%' }} className='text-center'>
+            <Link to='/' className='btn btn-primary'>mchat</Link>
+          </div>
+          <div style={{ width: '33%' }} className='text-right'>
+            <Link className='btn btn-primary' to='/conversation/new'>+</Link>
+          </div>
         </CardHeader>
         <RoomList />
       </Card>
@@ -48,7 +55,6 @@ class RoomList extends React.Component {
   render () {
     return (
       <div>
-        <Link className='btn btn-default btn-block' to='/conversation/new'>Create room</Link>
         <RoomListComponent roomUrl='/conversation/' rooms={this.state.rooms} />
       </div>
     )
@@ -61,8 +67,6 @@ class RoomList extends React.Component {
 }
 
 export const Dashboard = connect((state, props: RouteComponentProps<void>) => props, (dispatch) => ({ dispatch }))(DashboardComponent)
-
-// const ConversationList = connect(null, { onSelect: ({ id }: TConversation) => push(`/conversation/${id}`) })(ConversationListContainer)
 
 const SignOut = connect(null, { onClick: signOut })(({ onClick }: DropdownItemProps) => <DropdownItem {...{ onClick }}>Sign out</DropdownItem>)
 
