@@ -7,6 +7,8 @@ import { UsersSearchService } from '../../users/users-search.service'
 import { User } from '../../users/user'
 import { EntryTransition } from '../../ui/components/EntryTransition'
 import { RoomsService } from '../rooms.service'
+import { Redirect } from 'react-router'
+import { SpinnerContainer } from '../../ui/components/Spinner/SpinnerContainer'
 
 interface RoomFormProps { }
 
@@ -14,6 +16,8 @@ interface RoomFormState {
   members: Map<string, User>
   users: User[]
   query: string
+  roomId: string
+  isLoading: boolean
 }
 
 export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
@@ -21,7 +25,9 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
   state: RoomFormState = {
     members: Map(),
     users: [],
-    query: ''
+    query: '',
+    roomId: '',
+    isLoading: false
   }
 
   usersSearchService = UsersSearchService.create()
@@ -31,7 +37,7 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
 
   render () {
     return (
-      <div>
+      <SpinnerContainer loading={this.state.isLoading}>
         <h1>New room</h1>
         <div className='d-flex align-items-center justify-content-between'>
           <h2>Members</h2>
@@ -71,7 +77,10 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
             </EntryTransition>
           </>
         )}
-      </div>
+        {
+          this.state.roomId && <Redirect to={`/conversation/${this.state.roomId}`} />
+        }
+      </SpinnerContainer>
     )
   }
 
@@ -101,7 +110,10 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
   }
 
   createRoom () {
-    this.roomsService.createRoom(this.state.members.toArray())
+    this.setState({ isLoading: true })
+    this.roomsService
+      .createRoom(this.state.members.toArray())
+      .subscribe(roomId => roomId != null && this.setState({ roomId, isLoading: false }))
   }
 
 }

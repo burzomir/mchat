@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, from } from 'rxjs'
 import firebase from '../third-party/firebase'
 import { Maybe } from 'monet'
 import { tap } from 'ramda'
@@ -39,15 +39,16 @@ export class RoomsService {
   }
 
   createRoom (members: User[]) {
-
     const newRoomRef = this.roomsRef.push()
-    newRoomRef.set({
-      admin: this.userId,
-      members: members.reduce((obj, member) => ({ ...obj, [member.id]: true }), {})
-    })
-
-    const newRoomId = newRoomRef.key
-    this.userRoomsRef.push(newRoomId).set(true)
+    return from(
+      newRoomRef
+        .set({
+          admin: this.userId,
+          members: members.reduce((obj, member) => ({ ...obj, [member.id]: true }), {})
+        })
+        .then(() => this.userRoomsRef.update({ [newRoomRef.key as string]: true }))
+        .then(() => Promise.resolve(newRoomRef.key))
+    )
   }
 
 }
