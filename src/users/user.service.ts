@@ -28,8 +28,10 @@ export class CurrentUserService {
       firebase
         .database()
         .ref(`users/${user.uid}`)
-        .once('value')
-        .then(data => this._currentUser.next(User.create(data.val())))
+        .once('value', (snapshot) => {
+          const user = User.create({ id: snapshot.key, ...snapshot.val() })
+          this._currentUser.next(user)
+        })
     }
   }
 

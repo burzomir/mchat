@@ -7,18 +7,23 @@ import { MembersService } from '../members.service'
 import { MessagesService } from '../messages.service'
 import { Button, InputGroup, Input, InputGroupAddon } from 'reactstrap'
 import { Maybe } from 'monet'
+import { User } from '../../users/user'
+import { CurrentUserService } from '../../users/user.service'
 
 export class Room extends React.Component<Props> {
 
   state: State = {
     members: [],
     messages: [],
-    message: ''
+    message: '',
+    user: null
   }
 
   subscriptions: Subscription[] = []
   messagesService: MessagesService
   membersService: MembersService
+  currentUserService = CurrentUserService.getInstance()
+
   scrollRef = React.createRef<HTMLDivElement>()
 
   render () {
@@ -60,7 +65,11 @@ export class Room extends React.Component<Props> {
         .subscribe(messages => {
           this.setState({ messages })
           this.scrollToBottom()
-        })
+        }),
+
+      this.currentUserService
+        .currentUser
+        .subscribe(user => this.setState({ user }))
     )
 
     MessagesService.getForRoom(this.props.id).markAllAsRead()
@@ -87,19 +96,19 @@ export class Room extends React.Component<Props> {
 
   handleMessageSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    this.messagesService
-      .send(
-        Message.create({
-          id: this.state.message,
-          authorId: '1',
-          content: this.state.message,
-          creationDate: new Date(),
-          isUnread: true
-        })
+    const { user } = this.state
+    if (user) {
+      this.subscriptions.push(
+        this.messagesService
+          .send({
+            authorId: user.id,
+            content: this.state.message
+          })
+          .subscribe(() => {
+            this.setState({ message: '' })
+          })
       )
-      .subscribe(() => {
-        this.setState({ message: '' })
-      })
+    }
   }
 
   scrollToBottom = () => {
@@ -120,4 +129,5 @@ interface State {
   members: Member[]
   messages: Message[]
   message: string
+  user: User | null
 }

@@ -1,49 +1,33 @@
-import { BehaviorSubject, of } from 'rxjs'
+import { BehaviorSubject, from } from 'rxjs'
 import { Message } from './message'
+import firebase from '../third-party/firebase'
+import { Maybe } from 'monet'
+import { tap } from 'ramda'
 
 export class MessagesService {
 
   private static instances: Map<string, MessagesService> = new Map()
 
   private _messages = new BehaviorSubject<Message[]>([])
+  private messagesRef: firebase.database.Reference
 
-  private constructor () {
-    this._messages.next([
-      Message.create({
-        id: '1',
-        authorId: '1',
-        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
-        creationDate: '2018-06-02T23:38:30.413Z',
-        isUnread: true
-      }),
-      Message.create({
-        id: '2',
-        authorId: '1',
-        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
-        creationDate: '2018-06-02T23:38:30.413Z',
-        isUnread: true
-      }),
-      Message.create({
-        id: '3',
-        authorId: '1',
-        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
-        creationDate: '2018-06-02T23:38:30.413Z',
-        isUnread: false
-      }),
-      Message.create({
-        id: '4',
-        authorId: '1',
-        content: 'Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world!',
-        creationDate: '2018-06-02T23:38:30.413Z',
-        isUnread: false
-      })
-    ])
+  private constructor (roomId: string) {
+    this.messagesRef = firebase.database().ref(`rooms/${roomId}/messages`)
+
+    this.messagesRef.on('value', (snapshot) => {
+      Maybe
+        .fromNull(snapshot)
+        .flatMap(snapshot => Maybe.fromNull(snapshot.val()))
+        .map(messagesData => Object.keys(messagesData).reduce((messages, id) => [...messages, Message.create({ id, ...messagesData[id] })], []))
+        .map(tap(messages => this._messages.next(messages)))
+        .orElseRun(() => this._messages.next([]))
+    })
   }
 
   static getForRoom (roomId: string) {
     let messagesService = MessagesService.instances.get(roomId)
     if (!messagesService) {
-      messagesService = new MessagesService()
+      messagesService = new MessagesService(roomId)
       MessagesService.instances.set(roomId, messagesService)
     }
     return messagesService
@@ -64,9 +48,13 @@ export class MessagesService {
     )
   }
 
-  send (message: Message) {
-    this._messages.next([...this._messages.getValue(), message])
-    return of([])
+  send ({ authorId, content }: Pick<Message, 'authorId' | 'content'>) {
+    const newMessageRef = this.messagesRef.push()
+    return from(newMessageRef.set({
+      authorId,
+      content,
+      creationDate: (new Date()).toISOString()
+    }))
   }
 
 }
