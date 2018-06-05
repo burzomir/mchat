@@ -37,7 +37,7 @@ export class Room extends React.Component<Props> {
           </h3>
           <Button color='light'>Play</Button>
         </div>
-        <div className='flex-grow-1 mt-5 mb-2' style={{ overflowY: 'auto' }} ref={this.scrollRef}>
+        <div className='flex-grow-1 mt-5 mb-2 pr-5' style={{ overflowY: 'auto', marginRight: '-3rem' }} ref={this.scrollRef}>
           {
             this.state.messages.map(this.renderMessage)
           }
