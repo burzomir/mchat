@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { Subscription } from 'rxjs'
+import { Subscription, combineLatest } from 'rxjs'
 import { Badge } from 'reactstrap'
 import { Member } from '../member'
 import { MembersService } from '../members.service'
 import { MessagesService } from '../messages.service'
+import { CurrentUserService } from '../../users/user.service'
 
 export class RoomTile extends React.Component<Props> {
 
@@ -24,16 +25,27 @@ export class RoomTile extends React.Component<Props> {
               .join(', ')
           }
         </div>
-        { this.state.unreadMessagesCount > 0 && <Badge color='info'>{this.state.unreadMessagesCount}</Badge> }
+        {this.state.unreadMessagesCount > 0 && <Badge color='info'>{this.state.unreadMessagesCount}</Badge>}
       </div>
     )
   }
 
   componentDidMount () {
     this.subscriptions.push(
-      MembersService
-        .getForRoom(this.props.id)
-        .members.subscribe(members => this.setState({ members })),
+      combineLatest(
+        MembersService
+          .getForRoom(this.props.id)
+          .members,
+        CurrentUserService
+          .getInstance()
+          .currentUser
+      ).subscribe(([members, currentUser]) => {
+        if (currentUser) {
+          this.setState({ members: members.filter(member => member.id !== currentUser.id) })
+        } else {
+          this.setState({ members })
+        }
+      }),
 
       MessagesService
         .getForRoom(this.props.id)

@@ -32,7 +32,7 @@ export class Room extends React.Component<Props> {
         <div className='d-flex justify-content-between flex-shrink-0'>
           <h3 className='text-truncate'>
             {
-              this.state.members.map(prop('name')).join(', ')
+              this.getMembers().map(prop('name')).join(', ')
             }
           </h3>
           <Button color='light'>Play</Button>
@@ -50,6 +50,14 @@ export class Room extends React.Component<Props> {
         </form>
       </div>
     )
+  }
+
+  getMembers = () => {
+    return this.state.members
+      .filter(member => {
+        const { user } = this.state
+        return user ? member.id !== user.id : true
+      })
   }
 
   componentDidMount () {
@@ -81,8 +89,10 @@ export class Room extends React.Component<Props> {
 
   renderMessage = (message: Message) => {
     const author = this.state.members.find(member => member.id === message.authorId)
+    const { user } = this.state
+    const className = user && message.authorId === user.id ? 'text-right' : ''
     return (
-      <p key={message.id}>
+      <p key={message.id} className={className}>
         <strong>{author ? author.name : '[user deleted]'}</strong>
         <br />
         <span>{message.content}</span>
