@@ -10,6 +10,10 @@ import { Room } from '../../rooms/room/room'
 import { RoomsService } from '../../rooms/rooms.service'
 import { RoomForm } from '../../rooms/room-form/room-form'
 import firebase from '../../third-party/firebase'
+import { User } from '../../users/user'
+import { Subscription } from 'rxjs'
+import { CurrentUserService } from '../../users/user.service'
+import { pathOr } from 'ramda'
 
 export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dispatch }) => {
   return (
@@ -76,11 +80,33 @@ export const Dashboard = connect((state, props: RouteComponentProps<void>) => pr
 
 const SignOut = connect(null, { onClick: signOut })(({ onClick }: DropdownItemProps) => <DropdownItem {...{ onClick }}>Sign out</DropdownItem>)
 
-const renderWelcomeScreen = () => (
-  <EntryTransition>
-    <h1 className='text-center'>Welcome to mchat</h1>
-  </EntryTransition>
-)
+const renderWelcomeScreen = () => <WelcomeScreen />
+
+class WelcomeScreen extends React.Component<any, { user: User | null }> {
+
+  state: { user: User | null } = {
+    user: null
+  }
+
+  subscription: Subscription
+
+  componentDidMount () {
+    this.subscription = CurrentUserService.getInstance().currentUser.subscribe(user => this.setState({ user }))
+  }
+
+  componentWillUnmount () {
+    this.subscription.unsubscribe()
+  }
+
+  render () {
+    return (
+      <EntryTransition>
+        <h1 className='text-center'>Welcome to mchat, {pathOr('unnamed', ['user', 'name'])(this.state)}!</h1>
+      </EntryTransition>
+    )
+  }
+
+}
 
 const renderConversation = (props: RouteComponentProps<{ id: string }>) => (
   <EntryTransition key={props.match.params.id} className='h-100'>
