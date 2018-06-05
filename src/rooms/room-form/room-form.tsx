@@ -8,6 +8,7 @@ import { EntryTransition } from '../../ui/components/EntryTransition'
 import { RoomsService } from '../rooms.service'
 import { Redirect } from 'react-router'
 import { SpinnerContainer } from '../../ui/components/Spinner/SpinnerContainer'
+import firebase from '../../third-party/firebase'
 
 interface RoomFormProps { }
 
@@ -30,7 +31,8 @@ export class RoomForm extends React.Component<RoomFormProps, RoomFormState> {
   }
 
   usersSearchService = UsersSearchService.create()
-  roomsService = RoomsService.getForUser('bA1AgO6Sckaq7bSPvzHgXd4PDH52')
+  user = firebase.auth().currentUser
+  roomsService = RoomsService.getForUser(this.user ? this.user.uid : '')
 
   subscription: Subscription
 

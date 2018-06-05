@@ -40,13 +40,23 @@ export class RoomsService {
 
   createRoom (members: User[]) {
     const newRoomRef = this.roomsRef.push()
+    const userIds = [...members.map(member => member.id), this.userId]
     return from(
       newRoomRef
         .set({
           admin: this.userId,
-          members: members.reduce((obj, member) => ({ ...obj, [member.id]: true }), {})
+          members: userIds.reduce((obj, id) => ({ ...obj, [id]: true }), {})
         })
-        .then(() => this.userRoomsRef.update({ [newRoomRef.key as string]: true }))
+        .then(() => {
+          Promise.all(
+            userIds.map(id => {
+              firebase.database()
+                .ref(`user_rooms/${id}`)
+                .update({ [newRoomRef.key as string]: true })
+            })
+          )
+        }
+        )
         .then(() => Promise.resolve(newRoomRef.key))
     )
   }

@@ -9,6 +9,7 @@ import { RoomList as RoomListComponent } from '../room-list/room-list'
 import { Room } from '../../rooms/room/room'
 import { RoomsService } from '../../rooms/rooms.service'
 import { RoomForm } from '../../rooms/room-form/room-form'
+import firebase from '../../third-party/firebase'
 
 export const DashboardComponent: React.SFC<{ dispatch: Dispatch<any> }> = ({ dispatch }) => {
   return (
@@ -62,9 +63,13 @@ class RoomList extends React.Component {
   }
 
   componentDidMount () {
-    this.roomsService = RoomsService.getForUser('bA1AgO6Sckaq7bSPvzHgXd4PDH52')
-    this.roomsService.rooms.subscribe(rooms => this.setState({ rooms }))
+    const user = firebase.auth().currentUser
+    if (user) {
+      this.roomsService = RoomsService.getForUser(user.uid)
+      this.roomsService.rooms.subscribe(rooms => this.setState({ rooms }))
+    }
   }
+
 }
 
 export const Dashboard = connect((state, props: RouteComponentProps<void>) => props, (dispatch) => ({ dispatch }))(DashboardComponent)

@@ -46,9 +46,12 @@ export class UsersSearchService {
 
   transformSnapshot (snapshot: firebase.database.DataSnapshot) {
     const val = snapshot.val()
-    return Object
-      .keys(val)
-      .reduce((users, id) => [...users, User.create({ id, ...val[id] })], [])
+    if (val) {
+      return Object
+        .keys(val)
+        .reduce((users, id) => [...users, User.create({ id, ...val[id] })], [])
+    }
+    return []
   }
 
 }
